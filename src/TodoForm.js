@@ -1,28 +1,43 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import shortid from 'shortid';
 
-export default class TodoList extends React.Component{
+export default class TodoForm extends React.Component{
   state = {
-    todos: []
-  }
+    text: ""
+  };
+
+  
   handleChange = (event) =>{
-    this.ListeningStateChangedEvent({
+    // console.log(event.target.value)
+    this.setState({
       [event.target.name]: event.target.value
     })
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
+    this.props.onSubmit({
+      id: shortid.generate(),
+      text: this.state.text,
+      complete: false
+    });
+    this.setState({
+      text: ""
+    })
   }
+
   render() {
     return (
       <div className="App">
         
-        <form onSubmit={this.handleSubtmit}>
+        <form onSubmit={this.handleSubmit}>
           <label>
             Name:
-            <input type="text" name="name" />
+            <input type="text" 
+            name="text"
+            onChange={this.handleChange} />
           </label>
           {/* <label>
             E-mail:
